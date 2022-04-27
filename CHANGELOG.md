@@ -8,6 +8,21 @@
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities. -->
 
+## [1.1.0] - 2022-04-27
+
+### Added
+
+- Draw condition
+
+### Changed
+
+- Winning combinations
+- Global font styles and colors
+
+### Fixed
+
+- Winning player combination (Changes the background colors of the winning pattern)
+
 ## [1.0.0] - 2022-04-26
 
 ### Added
