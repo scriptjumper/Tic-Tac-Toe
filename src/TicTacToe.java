@@ -15,53 +15,61 @@ public class TicTacToe implements ActionListener {
     boolean player1_turn;
 
     // Frame size
-    int width = 800;
-    int height = 800;
+    private final static int width = 800;
+    private final static int height = 800;
 
-    // Background colour using RGB colour code (#323232 - Dark Grey Almost Black)
-    int pane_bg_red = 50;
-    int pane_bg_green = 50;
-    int pane_bg_blue = 50;
+    // Background color using RGB color code (#323232 - Dark Grey Almost Black)
+    private final static int pane_bg_red = 50;
+    private final static int pane_bg_green = 50;
+    private final static int pane_bg_blue = 50;
 
-    // Text field background colour using RGB colour code (#191919 - Black)
-    int textField_bg_red = 25;
-    int textField_bg_green = 25;
-    int textField_bg_blue = 25;
+    // Text field background color using RGB color code (#191919 - Black)
+    private final static int textField_bg_red = 25;
+    private final static int textField_bg_green = 25;
+    private final static int textField_bg_blue = 25;
 
-    // Text field foreground colour using RGB colour code (#1aff00 - Green/Light Green)
-    int textField_fg_red = 25;
-    int textField_fg_green = 255;
-    int textField_fg_blue = 0;
+    // Text field foreground color using RGB color code (#1aff00 - Green/Light Green)
+    private final static int textField_fg_red = 0;
+    private final static int textField_fg_green = 136;
+    private final static int textField_fg_blue = 255;
 
     // Font styling
-    String fontName = "Sathu";
-    int fontStyle = Font.BOLD; // 1
-    int fontSize = 75;
+    private final static String fontName = "Sathu";
+    private final static int fontStyle = Font.BOLD; // 1
+    private final static int fontSize = 75;
 
     // Game Name
-    String gameName = "Tic-Tac-Toe";
+    private final static String gameName = "Tic-Tac-Toe";
 
     // Panel bounds
-    int xBounds = 0;
-    int yBounds = 0;
-    int boundsWidth = width; // Linked to width of the frame
-    int boundsHeight = 100;
+    private final static int xBounds = 0;
+    private final static int yBounds = 0;
+    private final static int boundsWidth = width; // Linked to width of the frame
+    private final static int boundsHeight = 100;
 
     // Grid Layout
-    int rows = 3;
-    int cols = 3;
+    private final static int rows = 3;
+    private final static int cols = 3;
 
-    // Grid Colours (#969696 - Medium Grey)
-    int grid_bg_red = 150;
-    int grid_bg_green = 150;
-    int grid_bg_blue = 150;
+    // Grid Colors (#969696 - Medium Grey)
+    private final static int grid_bg_red = 150;
+    private final static int grid_bg_green = 150;
+    private final static int grid_bg_blue = 150;
 
     // Grid Buttons
-    int buttonFontSize = 120;
+    private final static int buttonFontSize = 120;
 
     // Players
-    String x = "X";
-    String o = "O";
+    private final static String x = "X";
+    // X Player color Red
+    private final static int xPlayer_red = 255;
+    private final static int xPlayer_green = 0;
+    private final static int xPlayer_blue = 0;
+    private final static String o = "O";
+    // O Player color Blue
+    private final static int oPlayer_red = 0;
+    private final static int oPlayer_green = 136;
+    private final static int oPlayer_blue = 255;
 
     // constructor
     TicTacToe() {
@@ -109,6 +117,10 @@ public class TicTacToe implements ActionListener {
         return tableMenuBar;
     }
 
+    /**
+     * Creating window menu to handle restarting and exting the game
+     * @return
+     */
     private JMenu createFileMenu() {
         final JMenu fileMenu = new JMenu("File");
 
@@ -141,29 +153,42 @@ public class TicTacToe implements ActionListener {
         for(int i = 0; i < 9; i++) {
             if(e.getSource() == jButtons[i]) {
                 if(player1_turn) {
-                    setBlockText(i, 255, 0, 0, x, false, o);
+                    setBlockText(i, xPlayer_red, xPlayer_green, xPlayer_blue, x, false, o);
                 } else {
-                    setBlockText(i, 0, 0, 255, o, true, x);
+                    setBlockText(i, oPlayer_red, oPlayer_green, oPlayer_blue, o, true, x);
                 }
             }
         }
     }
 
-    // Setting text (either X or O) on block
-    public void setBlockText(int idx, int red, int green, int blue, String playerText, boolean isPlayerTurn, String nextPlayerText) {
+    /**
+     * Setting text (either X or O) on block
+     * @param idx
+     * @param red
+     * @param green
+     * @param blue
+     * @param playerText
+     * @param isPlayerTurn
+     * @param nextPlayerText
+     */
+    private void setBlockText(int idx, int red, int green, int blue, String playerText, boolean isPlayerTurn, String nextPlayerText) {
         if(Objects.equals(jButtons[idx].getText(), "")) {
             jButtons[idx].setForeground(new Color(red, green, blue));
             jButtons[idx].setText(playerText);
             player1_turn = isPlayerTurn;
             jLabel_textField.setText(nextPlayerText + " turn");
-            checkWinningConditions(playerText);
+            checkWinningCombinations(playerText);
         }
     }
 
-    // Determines who's turn is first X or O
-    public void firstTurn() {
+    /**
+     * Randomly choosing a player to start the game
+     */
+    private void firstTurn() {
         try {
+            jPanel_button.setVisible(false);
             Thread.sleep(2000);
+            jPanel_button.setVisible(true);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -171,71 +196,35 @@ public class TicTacToe implements ActionListener {
         if(random.nextInt(2) == 0) {
             player1_turn = true;
             jLabel_textField.setText(x + " turn");
-        }
-        else {
+        } else {
             player1_turn = false;
             jLabel_textField.setText(o + " turn");
         }
     }
 
-    // Check if there is any winning conditions
-    // Or if any player(X or O) has won
-    public void checkWinningConditions(String playerText) {
-        if(
-                (Objects.equals(jButtons[0].getText(), playerText)) &&
-                        (Objects.equals(jButtons[1].getText(), playerText)) &&
-                        (Objects.equals(jButtons[2].getText(), playerText))
-        ) {
-            endGameMessage(0, 1, 2, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[3].getText(), playerText)) &&
-                        (Objects.equals(jButtons[4].getText(), playerText)) &&
-                        (Objects.equals(jButtons[5].getText(), playerText))
-        ) {
-            endGameMessage(3, 4, 5, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[6].getText(), playerText)) &&
-                        (Objects.equals(jButtons[7].getText(), playerText)) &&
-                        (Objects.equals(jButtons[8].getText(), playerText))
-        ) {
-            endGameMessage(6, 7, 8, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[0].getText(), playerText)) &&
-                        (Objects.equals(jButtons[3].getText(), playerText)) &&
-                        (Objects.equals(jButtons[6].getText(), playerText))
-        ) {
-            endGameMessage(0, 3, 6, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[1].getText(), playerText)) &&
-                        (Objects.equals(jButtons[4].getText(), playerText)) &&
-                        (Objects.equals(jButtons[7].getText(), playerText))
-        ) {
-            endGameMessage(1, 4, 7, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[2].getText(), playerText)) &&
-                        (Objects.equals(jButtons[5].getText(), playerText)) &&
-                        (Objects.equals(jButtons[8].getText(), playerText))
-        ) {
-            endGameMessage(2, 5, 8, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[0].getText(), playerText)) &&
-                        (Objects.equals(jButtons[4].getText(), playerText)) &&
-                        (Objects.equals(jButtons[8].getText(), playerText))
-        ) {
-            endGameMessage(0, 4, 8, playerText);
-        }
-        if(
-                (Objects.equals(jButtons[2].getText(), playerText)) &&
-                        (Objects.equals(jButtons[4].getText(), playerText)) &&
-                        (Objects.equals(jButtons[6].getText(), playerText))
-        ) {
-            endGameMessage(2, 4, 6, playerText);
+    /**
+     * This matrix is used to find indexes to check all
+     * possible winning triplets in board[0..8]
+     * @param playerText ("X" or "O")
+     */
+    private void checkWinningCombinations(final String playerText) {
+        final int[][] combinations = {
+                {0, 1, 2}, // Check first row.
+                {3, 4, 5}, // Check second Row
+                {6, 7, 8}, // Check third Row
+                {0, 3, 6}, // Check first column
+                {1, 4, 7}, // Check second Column
+                {2, 5, 8}, // Check third Column
+                {0, 4, 8}, // Check first Diagonal
+                {2, 4, 6}  // Check second Diagonal
+        };
+
+        for (int i = 0; i < combinations.length; i++) {
+            if ((Objects.equals(jButtons[combinations[i][0]].getText(), playerText)) &&
+                    (Objects.equals(jButtons[combinations[i][1]].getText(), playerText)) &&
+                    (Objects.equals(jButtons[combinations[i][2]].getText(), playerText))) {
+                endGameMessage(combinations[i][0], combinations[i][1], combinations[i][2], playerText);
+            }
         }
 
         if (!Objects.equals(jButtons[0].getText(), "") &&
@@ -251,8 +240,15 @@ public class TicTacToe implements ActionListener {
         }
     }
 
-    public void endGameMessage(int a, int b, int c, String player) {
-        String endGameMessage;
+    /**
+     * Either setting a message for the winner or a draw
+     * @param a
+     * @param b
+     * @param c
+     * @param player winning player
+     */
+    private void endGameMessage(final int a, final int b, final int c, final String player) {
+        final String endGameMessage;
 
         if (!Objects.equals(player, "")) {
             endGameMessage = player + " wins";
