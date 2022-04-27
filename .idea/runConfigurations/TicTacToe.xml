@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TicTacToe" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Main" />
-    <module name="Tic-Tac-Toe-Java" />
+    <module name="Tic-Tac-Toe" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
