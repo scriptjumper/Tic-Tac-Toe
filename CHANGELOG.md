@@ -13,6 +13,7 @@
 ### Added
 
 - Draw condition
+- Exit and Restart game options
 
 ### Changed
 

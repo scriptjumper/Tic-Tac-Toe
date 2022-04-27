@@ -51,7 +51,7 @@ public class TicTacToe implements ActionListener {
     int rows = 3;
     int cols = 3;
 
-    // Grid Colours
+    // Grid Colours (#969696 - Medium Grey)
     int grid_bg_red = 150;
     int grid_bg_green = 150;
     int grid_bg_blue = 150;
@@ -65,7 +65,7 @@ public class TicTacToe implements ActionListener {
 
     // constructor
     TicTacToe() {
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jFrame.setSize(width, height);
         jFrame.getContentPane().setBackground(new Color(pane_bg_red, pane_bg_green, pane_bg_blue));
         jFrame.setLayout(new BorderLayout());
@@ -92,11 +92,48 @@ public class TicTacToe implements ActionListener {
             jButtons[i].addActionListener(this);
         }
 
+        // Menu options
+        final JMenuBar tableMenuBar = createTableMenuBar();
+        jFrame.setJMenuBar(tableMenuBar);
+
         jPanel_title.add(jLabel_textField); // Adding text field to the title
         jFrame.add(jPanel_title, BorderLayout.NORTH); // Adding title to the frame
         jFrame.add(jPanel_button);
 
         firstTurn();
+    }
+
+    private JMenuBar createTableMenuBar() {
+        final JMenuBar tableMenuBar = new JMenuBar();
+        tableMenuBar.add(createFileMenu());
+        return tableMenuBar;
+    }
+
+    private JMenu createFileMenu() {
+        final JMenu fileMenu = new JMenu("File");
+
+        final JMenuItem restart = new JMenuItem("Restart");
+        restart.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.dispose();
+                new TicTacToe();
+            }
+        });
+        fileMenu.add(restart);
+
+        // Close game and window
+        final JMenuItem exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.dispose();
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitMenuItem);
+
+        return fileMenu;
     }
 
     @Override
