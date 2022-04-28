@@ -8,7 +8,7 @@
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities. -->
 
-## [1.1.0] - 2022-04-27
+## [1.1.0] - 2022-04-28
 
 ### Added
 
@@ -35,4 +35,5 @@
 - Winning text
 - **Winning criteria**: Whenever any of the two players has fully filled one row, column or diagonal with his symbol (`X` / `O`), wins and the game ends.
 
+[1.1.0]: https://github.com/scriptjumper/Tic-Tac-Toe/releases/tag/v-1.1.0
 [1.0.0]: https://github.com/scriptjumper/Tic-Tac-Toe/releases/tag/v-1.0.0
